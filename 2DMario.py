@@ -1,0 +1,73 @@
+from pico2d import *
+
+class Ground:
+	def __init__ (self):
+		self.image = load_image('main_ground.png')
+		self.x = 34
+	def draw(self):
+		for i in range(50):
+			self.image.draw(self.x * i,18)
+			self.image.draw(self.x * i, 36)
+			self.image.draw(self.x * i, 54)
+	pass
+class Door:
+	def __init__(self):
+		self.image = load_image('stagedoor.png')
+		self.x=400
+	def draw(self):
+		self.image.draw(self.x, 100)
+	pass
+
+def handle_events():
+	global running
+	global x
+	global dir
+	events = get_events()
+	for event in events:
+		if event.type ==SDL_QUIT:
+			running = False
+		elif event.type == SDL_KEYDOWN and event.key == SDLK_ESCAPE:
+			running = False
+		elif event.type == SDL_KEYDOWN:
+			if event.key ==SDLK_RIGHT:
+				dir += 1
+			elif event.key ==SDLK_LEFT:
+				dir -= 1
+		elif event.type == SDL_KEYUP:
+			if event.key ==SDLK_RIGHT:
+				dir -= 1
+			elif event.key ==SDLK_LEFT:
+				dir += 1
+
+
+open_canvas()
+
+ground = Ground()
+mario = load_image('mariowalk.png')
+idlemario =load_image('idlemario.png')
+door = Door()
+background = load_image('background.png')
+flipmario = load_image('flipmario.png')
+running =True
+x = 300
+frame = 0
+dir =0
+while running:
+	
+
+	clear_canvas()
+	handle_events()
+	background.draw(400, 300)
+	door.draw()
+	ground.draw()
+	if dir > 0:
+		mario.clip_draw(frame*50, 0, 50, 70, x, 100)
+	elif dir < 0:
+		flipmario.clip_draw(frame*50, 0, 50, 70, x, 100)
+	elif dir == 0:
+		idlemario.clip_draw(frame*48, 0, 48, 70, x, 100)
+
+	update_canvas()
+	frame = (frame+1)%6
+	x += dir * 5
+	delay(0.1)
