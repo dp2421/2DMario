@@ -55,8 +55,26 @@ def handle_events():
 				y -=20
 
             
+def enter():
+    global mario, ground
+    ground = Ground()
+    mario = load_image('mariowalk.png')
+    idlemario =load_image('idlemario.png')
+    door = Door()
+    background = load_image('background.png')
+    flipmario = load_image('flipmario.png')
+    pass
 
 
+def exit():
+    global mario, ground
+    del(mario)
+    del(ground)
+    del(door)
+    del(background)
+    del(flipmario)
+    del(idlemario)
+    pass
 open_canvas()
 
 ground = Ground()
