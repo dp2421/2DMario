@@ -4,21 +4,15 @@ import json
 import os
 
 import game_framework
-
-
-
-name = "MainState"
+name = "MainStage"
 
 boy = None
-grass = None
+background = None
 font = None
 
-
-
-class Grass:
+class Background:
     def __init__(self):
         self.image = load_image('background.png')
-
     def draw(self):
         self.image.draw(400, 30)
 
@@ -30,7 +24,6 @@ class Boy:
         self.frame = 0
         self.image = load_image('Mario_run.png')
         self.dir = 1
-
     def update(self):
         self.frame = (self.frame + 1) % 8
         self.x += self.dir
@@ -38,7 +31,6 @@ class Boy:
             self.dir = -1
         elif self.x <= 0:
             self.dir = 1
-
     def draw(self):
         self.image.clip_draw(self.frame * 100, 0, 100, 100, self.x, self.y)
 
@@ -46,7 +38,7 @@ class Boy:
 def enter():
     global boy, grass
     boy = Boy()
-    grass = Grass()
+    background = Background()
     pass
 
 
@@ -70,8 +62,8 @@ def handle_events():
     for event in events:
         if event.type ==SDL_QUIT:
             game_framework.quit()
-        elif event.type == SDL_KEYDOWN and event.key ==SDLK_ESCAPE:
-            game_framework.change_state(title_state)
+        # elif event.type == SDL_KEYDOWN and event.key ==SDLK_ESCAPE:
+        #     game_framework.change_state(title_state)
     pass
 
 
@@ -82,11 +74,13 @@ def update():
 
 def draw():
     clear_canvas()
-    grass.draw()
+    background.draw()
     boy.draw()
     update_canvas()
     pass
 
+while running:
+    
 
 
 
