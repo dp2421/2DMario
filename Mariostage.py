@@ -28,6 +28,15 @@ class Door:
         self.image.draw(self.x, 100)
         self.image.draw(self.x+100, 100)
     pass
+class QuestionTile:
+    def __init__(self):
+        self.image = load_image('questiontile.png')
+        self.x = random.randrange(300, 800)
+        self.frame = 0
+    def draw(self):
+        self.image.clip_draw(frame*34, 0, 34, 36, self.x, 140)
+        self.frame = (self.frame+1)%4
+        delay (0.05)
 def enter():
     global boy, grass
     boy = Boy()
@@ -109,9 +118,10 @@ mario = load_image('mariowalk.png')
 idlemario =load_image('idlemario.png')
 background = load_image('background.png')
 flipmario = load_image('flipmario.png')
+qutile = QuestionTile()
 running =True
 x = 100
-y=100
+y=92
 frame = 0
 dir =0
 while running:
@@ -120,6 +130,7 @@ while running:
     clear_canvas()
     handle_events()
     background.draw(400, 300)
+   
     ground.draw()
     if dir > 0:
         mario.clip_draw(frame*50, 0, 50, 70, x, y)
@@ -127,6 +138,8 @@ while running:
         flipmario.clip_draw(frame*50, 0, 50, 70, x, y)
     elif dir == 0:
         idlemario.clip_draw(frame*48, 0, 48, 70, x, y)
+
+    qutile.draw()
 
     update_canvas()
     frame = (frame+1)%6
