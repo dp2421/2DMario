@@ -6,35 +6,28 @@ import os
 import game_framework
 name = "MainStage"
 
-boy = None
 background = None
 font = None
 
-class Background:
-    def __init__(self):
-        self.image = load_image('background.png')
+class Ground:
+    def __init__ (self):
+        self.grass = load_image('stagegrass.png')
+        self.tile = load_image('stagetile.png')
+        self.x = 34
     def draw(self):
-        self.image.draw(400, 30)
-
-
-
-class Boy:
+        for i in range(50):
+            self.tile.draw(self.x * i,18)
+            self.tile.draw(self.x * i, 36)
+            self.grass.draw(self.x * i, 54)
+    pass
+class Door:
     def __init__(self):
-        self.x, self.y = 0, 90
-        self.frame = 0
-        self.image = load_image('Mario_run.png')
-        self.dir = 1
-    def update(self):
-        self.frame = (self.frame + 1) % 8
-        self.x += self.dir
-        if self.x >= 800:
-            self.dir = -1
-        elif self.x <= 0:
-            self.dir = 1
+        self.image = load_image('stagedoor.png')
+        self.x=500
     def draw(self):
-        self.image.clip_draw(self.frame * 100, 0, 100, 100, self.x, self.y)
-
-
+        self.image.draw(self.x, 100)
+        self.image.draw(self.x+100, 100)
+    pass
 def enter():
     global boy, grass
     boy = Boy()
@@ -79,9 +72,65 @@ def draw():
     update_canvas()
     pass
 
+def handle_events():
+    global running
+    global x
+    global dir
+    global y
+    events = get_events()
+    for event in events:
+        if event.type ==SDL_QUIT:
+            running = False
+        elif event.type == SDL_KEYDOWN and event.key == SDLK_ESCAPE:
+            running = False
+        elif event.type == SDL_KEYDOWN:
+            if event.key ==SDLK_RIGHT:
+                dir += 1
+            elif event.key ==SDLK_LEFT:
+                dir -= 1
+            elif event.key ==SDLK_SPACE:
+                y+=20
+            # elif event.key == SDLK_DOWN:
+        elif event.type == SDL_KEYUP:
+            if event.key ==SDLK_RIGHT:
+                dir -= 1
+            elif event.key ==SDLK_LEFT:
+                dir += 1
+            elif event.key == SDLK_SPACE:
+                y -=20
+
+            
+
+
+open_canvas()
+
+ground = Ground()
+mario = load_image('mariowalk.png')
+idlemario =load_image('idlemario.png')
+background = load_image('background.png')
+flipmario = load_image('flipmario.png')
+running =True
+x = 100
+y=100
+frame = 0
+dir =0
 while running:
     
 
+    clear_canvas()
+    handle_events()
+    background.draw(400, 300)
+    ground.draw()
+    if dir > 0:
+        mario.clip_draw(frame*50, 0, 50, 70, x, y)
+    elif dir < 0:
+        flipmario.clip_draw(frame*50, 0, 50, 70, x, y)
+    elif dir == 0:
+        idlemario.clip_draw(frame*48, 0, 48, 70, x, y)
 
+    update_canvas()
+    frame = (frame+1)%6
+    x += dir * 5
+    delay(0.05)
 
 
