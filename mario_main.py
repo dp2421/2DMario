@@ -75,7 +75,7 @@ def exit():
     del(flipmario)
     del(idlemario)
     pass
-open_canvas()
+open_canvas(700, 500)
 
 ground = Ground()
 mario = load_image('mariowalk.png')
