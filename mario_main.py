@@ -1,10 +1,20 @@
 from pico2d import *
 import game_framework
-import Mariostage
+# import Mariostage
+import start_state
+
+
+name = "MainState"
+ground = None
+mario = None
+idlemario =None
+door = None
+background = None
+flipmario = None
 
 class Ground:
 	def __init__ (self):
-		self.image = load_image('main_ground.png')
+		self.image = load_image('resource/main_ground.png')
 		self.x = 34
 	def draw(self):
 		for i in range(50):
@@ -14,7 +24,7 @@ class Ground:
 	pass
 class Door:
 	def __init__(self):
-		self.image = load_image('stagedoor.png')
+		self.image = load_image('resource/stagedoor.png')
 		self.x=500
 	def draw(self):
 		self.image.draw(self.x, 100)
@@ -24,19 +34,19 @@ class Door:
 def handle_events():
 	global running
 	global x
-	global dir
+	global direct
 	global y
 	events = get_events()
 	for event in events:
 		if event.type ==SDL_QUIT:
-			running = False
+			game_framework.quit()
 		elif event.type == SDL_KEYDOWN and event.key == SDLK_ESCAPE:
-			running = False
+			game_framework.quit()
 		elif event.type == SDL_KEYDOWN:
 			if event.key ==SDLK_RIGHT:
-				dir += 1
+				direct += 1
 			elif event.key ==SDLK_LEFT:
-				dir -= 1
+				direct -= 1
 			elif event.key ==SDLK_SPACE:
 				y+=20
 			elif event.key == SDLK_DOWN:
@@ -48,26 +58,30 @@ def handle_events():
 				# 	웅크리는 모션
 		elif event.type == SDL_KEYUP:
 			if event.key ==SDLK_RIGHT:
-				dir -= 1
+				direct -= 1
 			elif event.key ==SDLK_LEFT:
-				dir += 1
+				direct += 1
 			elif event.key == SDLK_SPACE:
 				y -=20
 
             
 def enter():
-    global mario, ground
+    global mario, ground, idlemario, door, background, flipmario, y, direct, x, frame
     ground = Ground()
-    mario = load_image('mariowalk.png')
-    idlemario =load_image('idlemario.png')
+    mario = load_image('resource/mariowalk.png')
+    idlemario =load_image('resource/idlemario.png')
     door = Door()
-    background = load_image('background.png')
-    flipmario = load_image('flipmario.png')
+    background = load_image('resource/startbackground.png')
+    flipmario = load_image('resource/flipmario.png')
+    y=120
+    x= 300
+    direct =0
+    frame = 0
     pass
 
 
 def exit():
-    global mario, ground
+    global mario, ground, door, background, flipmario, idlemario
     del(mario)
     del(ground)
     del(door)
@@ -75,35 +89,41 @@ def exit():
     del(flipmario)
     del(idlemario)
     pass
-open_canvas(700, 500)
 
-ground = Ground()
-mario = load_image('mariowalk.png')
-idlemario =load_image('idlemario.png')
-door = Door()
-background = load_image('background.png')
-flipmario = load_image('flipmario.png')
-running =True
-x = 300
-y=100
-frame = 0
-dir =0
-while running:
-	
+# ground = Ground()
+# mario = load_image('mariowalk.png')
+# idlemario =load_image('idlemario.png')
+# door = Door()
+# background = load_image('background.png')
+# flipmario = load_image('flipmario.png')
+# running =True
 
+def draw():
+	global x, y, direct, frame
 	clear_canvas()
 	handle_events()
-	background.draw(400, 300)
+	background.draw(350, 262)
 	door.draw()
 	ground.draw()
-	if dir > 0:
+	if direct > 0:
 		mario.clip_draw(frame*50, 0, 50, 70, x, y)
-	elif dir < 0:
+	elif direct < 0:
 		flipmario.clip_draw(frame*50, 0, 50, 70, x, y)
-	elif dir == 0:
+	elif direct == 0:
 		idlemario.clip_draw(frame*48, 0, 48, 70, x, y)
 
 	update_canvas()
 	frame = (frame+1)%6
-	x += dir * 5
+	x += direct * 5
 	delay(0.05)
+
+def update():
+
+	pass
+
+def pause():
+    pass
+
+
+def resume():
+    pass

@@ -11,8 +11,8 @@ font = None
 
 class Ground:
     def __init__ (self):
-        self.grass = load_image('stagegrass.png')
-        self.tile = load_image('stagetile.png')
+        self.grass = load_image('resource/stagegrass.png')
+        self.tile = load_image('resource/stagetile.png')
         self.x = 34
     def draw(self):
         for i in range(50):
@@ -38,16 +38,17 @@ class QuestionTile:
         self.frame = (self.frame+1)%4
         delay (0.05)
 def enter():
-    global boy, grass
-    boy = Boy()
-    background = Background()
+    global mario, ground
+    ground = Ground()
+    mario = load_image('mariowalk.png')
+    qutile = QuestionTile()
     pass
 
 
 def exit():
-    global boy, grass
-    del(boy)
-    del(grass)
+    global mario, ground
+    del(mario)
+    del(ground)
     pass
 
 
@@ -108,10 +109,6 @@ def handle_events():
             elif event.key == SDLK_SPACE:
                 y -=20
 
-            
-
-
-open_canvas()
 
 ground = Ground()
 mario = load_image('mariowalk.png')
@@ -124,9 +121,8 @@ x = 100
 y=92
 frame = 0
 dir =0
-while running:
-    
 
+def draw():
     clear_canvas()
     handle_events()
     background.draw(400, 300)
