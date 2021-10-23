@@ -4,6 +4,8 @@ import json
 import os
 
 import game_framework
+import mario_main
+
 name = "MainStage"
 
 background = None
@@ -22,7 +24,7 @@ class Ground:
     pass
 class Door:
     def __init__(self):
-        self.image = load_image('stagedoor.png')
+        self.image = load_image('resource/stagedoor.png')
         self.x=500
     def draw(self):
         self.image.draw(self.x, 100)
@@ -30,7 +32,7 @@ class Door:
     pass
 class QuestionTile:
     def __init__(self):
-        self.image = load_image('questiontile.png')
+        self.image = load_image('resource/questiontile.png')
         self.x = random.randrange(300, 800)
         self.frame = 0
     def draw(self):
@@ -38,10 +40,18 @@ class QuestionTile:
         self.frame = (self.frame+1)%4
         delay (0.05)
 def enter():
-    global mario, ground
+    global mario, ground, idlemario, background, flipmario, qutile, running, x, y, frame, direct
     ground = Ground()
-    mario = load_image('mariowalk.png')
+    mario = load_image('resource/mariowalk.png')
+    idlemario =load_image('resource/idlemario.png')
+    background = load_image('resource/mapbackground.png')
+    flipmario = load_image('resource/flipmario.png')
     qutile = QuestionTile()
+    running =True
+    x = 100
+    y=92
+    frame = 0
+    direct =0
     pass
 
 
@@ -60,86 +70,74 @@ def resume():
     pass
 
 
-def handle_events():
-    events = get_events()
-    for event in events:
-        if event.type ==SDL_QUIT:
-            game_framework.quit()
-        # elif event.type == SDL_KEYDOWN and event.key ==SDLK_ESCAPE:
-        #     game_framework.change_state(title_state)
-    pass
+# def handle_events():
+#     events = get_events()
+#     for event in events:
+#         if event.type ==SDL_QUIT:
+#             game_framework.quit()
+#         # elif event.type == SDL_KEYDOWN and event.key ==SDLK_ESCAPE:
+#         #     game_framework.change_state(title_state)
+#     pass
 
 
 def update():
-    boy.update()
+    # mario.update()
     pass
 
 
 def draw():
     clear_canvas()
     background.draw()
-    boy.draw()
+    mario.draw()
     update_canvas()
     pass
 
 def handle_events():
     global running
     global x
-    global dir
+    global direct
     global y
     events = get_events()
     for event in events:
         if event.type ==SDL_QUIT:
-            running = False
+            game_framework.quit()
         elif event.type == SDL_KEYDOWN and event.key == SDLK_ESCAPE:
-            running = False
+            game_framework.quit()
         elif event.type == SDL_KEYDOWN:
             if event.key ==SDLK_RIGHT:
-                dir += 1
+                direct += 1
             elif event.key ==SDLK_LEFT:
-                dir -= 1
+                direct -= 1
             elif event.key ==SDLK_SPACE:
                 y+=20
             # elif event.key == SDLK_DOWN:
         elif event.type == SDL_KEYUP:
             if event.key ==SDLK_RIGHT:
-                dir -= 1
+                direct -= 1
             elif event.key ==SDLK_LEFT:
-                dir += 1
+                direct += 1
             elif event.key == SDLK_SPACE:
                 y -=20
 
-
-ground = Ground()
-mario = load_image('mariowalk.png')
-idlemario =load_image('idlemario.png')
-background = load_image('background.png')
-flipmario = load_image('flipmario.png')
-qutile = QuestionTile()
-running =True
-x = 100
-y=92
-frame = 0
-dir =0
-
 def draw():
+    global frame, x, y, direct
     clear_canvas()
     handle_events()
     background.draw(400, 300)
    
     ground.draw()
-    if dir > 0:
+    if direct > 0:
         mario.clip_draw(frame*50, 0, 50, 70, x, y)
-    elif dir < 0:
+    elif direct < 0:
         flipmario.clip_draw(frame*50, 0, 50, 70, x, y)
-    elif dir == 0:
+    elif direct == 0:
         idlemario.clip_draw(frame*48, 0, 48, 70, x, y)
 
     qutile.draw()
 
     update_canvas()
     frame = (frame+1)%6
-    x += dir * 5
+    x += direct * 5
     delay(0.05)
 
 

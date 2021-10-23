@@ -1,6 +1,6 @@
 from pico2d import *
 import game_framework
-# import Mariostage
+import Mariostage
 import start_state
 
 
