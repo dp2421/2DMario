@@ -40,7 +40,7 @@ class QuestionTile:
         self.frame = (self.frame+1)%4
         delay (0.05)
 def enter():
-    global mario, ground, idlemario, background, flipmario, qutile, running, x, y, frame, direct
+    global mario, ground, idlemario, background, flipmario, qutile, running, x, y, frame, direct, camerawork
     ground = Ground()
     mario = load_image('resource/mariowalk.png')
     idlemario =load_image('resource/idlemario.png')
@@ -52,6 +52,7 @@ def enter():
     y=92
     frame = 0
     direct =0
+    camerawork=0
     pass
 
 
@@ -85,18 +86,18 @@ def update():
     pass
 
 
-def draw():
-    clear_canvas()
-    background.draw()
-    mario.draw()
-    update_canvas()
-    pass
+# def draw():
+#     clear_canvas()
+#     background.draw()
+#     mario.draw()
+#     update_canvas()
+#     pass
 
 def handle_events():
     global running
     global x
     global direct
-    global y
+    global y, camerawork
     events = get_events()
     for event in events:
         if event.type ==SDL_QUIT:
@@ -106,24 +107,28 @@ def handle_events():
         elif event.type == SDL_KEYDOWN:
             if event.key ==SDLK_RIGHT:
                 direct += 1
+                camerawork-=10
             elif event.key ==SDLK_LEFT:
                 direct -= 1
+                camerawork+=10
             elif event.key ==SDLK_SPACE:
                 y+=20
             # elif event.key == SDLK_DOWN:
         elif event.type == SDL_KEYUP:
             if event.key ==SDLK_RIGHT:
                 direct -= 1
+                camerawork+=10
             elif event.key ==SDLK_LEFT:
                 direct += 1
+                camerawork-=10
             elif event.key == SDLK_SPACE:
                 y -=20
 
 def draw():
-    global frame, x, y, direct
+    global frame, x, y, direct, camerawork
     clear_canvas()
     handle_events()
-    background.draw(400, 300)
+    background.draw(400+camerawork, 300)
    
     ground.draw()
     if direct > 0:
@@ -137,6 +142,7 @@ def draw():
 
     update_canvas()
     frame = (frame+1)%6
+    camerawork-=direct*5
     x += direct * 5
     delay(0.05)
 
