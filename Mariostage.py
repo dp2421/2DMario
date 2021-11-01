@@ -12,15 +12,16 @@ background = None
 font = None
 
 class Ground:
+    global camerawork
     def __init__ (self):
         self.grass = load_image('resource/stagegrass.png')
         self.tile = load_image('resource/stagetile.png')
         self.x = 34
     def draw(self):
-        for i in range(50):
-            self.tile.draw(self.x * i,18)
-            self.tile.draw(self.x * i, 36)
-            self.grass.draw(self.x * i, 54)
+        for i in range(500):
+            self.tile.draw(self.x * i + camerawork,18)
+            self.tile.draw(self.x * i+ camerawork, 36)
+            self.grass.draw(self.x * i +camerawork, 54)
     pass
 class Door:
     def __init__(self):
@@ -57,9 +58,13 @@ def enter():
 
 
 def exit():
-    global mario, ground
+    global mario, ground, idlemario, background, flipmario, qutile
     del(mario)
     del(ground)
+    del(idlemario)
+    del(background)
+    del(flipmario)
+    del(qutile)
     pass
 
 
@@ -143,7 +148,10 @@ def draw():
     update_canvas()
     frame = (frame+1)%6
     camerawork-=direct*5
-    x += direct * 5
+    if x>= 350:
+        x=350
+    else:
+        x += direct * 5
     delay(0.05)
 
 
