@@ -54,8 +54,6 @@ def handle_events():
 					game_framework.change_state(Mariostage)
 				elif x>=600 and x<=650:
 					game_framework.change_state(Mariostage)
-				# else:
-				# 	웅크리는 모션
 		elif event.type == SDL_KEYUP:
 			if event.key ==SDLK_RIGHT:
 				direct -= 1
@@ -81,13 +79,14 @@ def enter():
 
 
 def exit():
-    global mario, ground, door, background, flipmario, idlemario
+    global mario, ground, door, background, flipmario, idlemario, direct
     del(mario)
     del(ground)
     del(door)
     del(background)
     del(flipmario)
     del(idlemario)
+    del(direct)
     pass
 
 # ground = Ground()
@@ -99,7 +98,7 @@ def exit():
 # running =True
 
 def draw():
-	global x, y, direct, frame
+	global x, y, direct, frame, background
 	clear_canvas()
 	handle_events()
 	background.draw(350, 262)

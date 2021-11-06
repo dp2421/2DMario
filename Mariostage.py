@@ -58,13 +58,14 @@ def enter():
 
 
 def exit():
-    global mario, ground, idlemario, background, flipmario, qutile
+    global mario, ground, idlemario, background, flipmario, qutile, direct
     del(mario)
     del(ground)
     del(idlemario)
     del(background)
     del(flipmario)
     del(qutile)
+    del(direct)
     pass
 
 
@@ -117,8 +118,7 @@ def handle_events():
                 direct -= 1
                 camerawork+=10
             elif event.key ==SDLK_SPACE:
-                y+=20
-            # elif event.key == SDLK_DOWN:
+                y+=30
         elif event.type == SDL_KEYUP:
             if event.key ==SDLK_RIGHT:
                 direct -= 1
@@ -127,13 +127,14 @@ def handle_events():
                 direct += 1
                 camerawork-=10
             elif event.key == SDLK_SPACE:
-                y -=20
+                y -=30
 
 def draw():
     global frame, x, y, direct, camerawork
     clear_canvas()
     handle_events()
     background.draw(400+camerawork, 300)
+    qutile.draw()
    
     ground.draw()
     if direct > 0:
