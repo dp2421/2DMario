@@ -2,9 +2,11 @@ from pico2d import *
 import game_framework
 import Mariostage
 import start_state
-
+import gameworld
 from start_ground import StartGround
-from player import Maro
+from player import Mario
+
+
 name = "MainState"
 ground = None
 mario = None
@@ -13,16 +15,6 @@ door = None
 background = None
 flipmario = None
 
-# class Ground:
-# 	def __init__ (self):
-# 		self.image = load_image('resource/main_ground.png')
-# 		self.x = 34
-# 	def draw(self):
-# 		for i in range(50):
-# 			self.image.draw(self.x * i,18)
-# 			self.image.draw(self.x * i, 36)
-# 			self.image.draw(self.x * i, 54)
-# 	pass
 class Door:
 	def __init__(self):
 		self.image = load_image('resource/stagedoor.png')
@@ -43,87 +35,55 @@ def handle_events():
 			game_framework.quit()
 		elif event.type == SDL_KEYDOWN and event.key == SDLK_ESCAPE:
 			game_framework.quit()
-		elif event.type == SDL_KEYDOWN:
-			if event.key ==SDLK_RIGHT:
-				direct += 1
-			elif event.key ==SDLK_LEFT:
-				direct -= 1
-			elif event.key ==SDLK_SPACE:
-				y+=20
-			elif event.key == SDLK_DOWN:
-				if x>=500 and x<650:
-					game_framework.change_state(Mariostage)
-				elif x>=600 and x<=650:
-					game_framework.change_state(Mariostage)
-		elif event.type == SDL_KEYUP:
-			if event.key ==SDLK_RIGHT:
-				direct -= 1
-			elif event.key ==SDLK_LEFT:
-				direct += 1
-			elif event.key == SDLK_SPACE:
-				y -=20
+		# elif event.type == SDL_KEYDOWN:
+		# 	if event.key ==SDLK_RIGHT:
+		# 		direct += 1
+		# 	elif event.key ==SDLK_LEFT:
+		# 		direct -= 1
+		# 	elif event.key ==SDLK_SPACE:
+		# 		y+=20
+		# 	elif event.key == SDLK_DOWN:
+		# 		if x>=500 and x<650:
+		# 			game_framework.change_state(Mariostage)
+		# 		elif x>=600 and x<=650:
+		# 			game_framework.change_state(Mariostage)
+		# elif event.type == SDL_KEYUP:
+		# 	if event.key ==SDLK_RIGHT:
+		# 		direct -= 1
+		# 	elif event.key ==SDLK_LEFT:
+		# 		direct += 1
+		# 	elif event.key == SDLK_SPACE:
+		# 		y -=20
 
             
 def enter():
-    global mario, ground, idlemario, door, background, flipmario, y, direct, x, frame
+    global mario, startground, background
     startground = StartGround()
-    mario= pl
-    mario = load_image('resource/mariowalk.png')
-    idlemario =load_image('resource/idlemario.png')
-    door = Door()
-    background = load_image('resource/startbackground.png')
-    flipmario = load_image('resource/flipmario.png')
-    game_world.add_object(startground, 0)
-    game_world.add_object(player, 1)
-    # y=120
-    # x= 300
-    # direct =0
-    # frame = 0
+    mario= Mario()
+    background = load_image('resource/mapbackground.png')
+    gameworld.add_object(startground, 0)
+    gameworld.add_object(mario, 1)
     pass
-def enter():
-    global boy
-    boy = Boy()
-    grass = Grass()
-    game_world.add_object(grass, 0)
-    game_world.add_object(boy, 1)
 
 def exit():
-    global mario, ground, door, background, flipmario, idlemario, direct
+    global mario, ground, door, background
     del(mario)
     del(ground)
     del(door)
     del(background)
-    del(flipmario)
-    del(idlemario)
-    del(direct)
     pass
 
-# ground = Ground()
-# mario = load_image('mariowalk.png')
-# idlemario =load_image('idlemario.png')
-# door = Door()
-# background = load_image('background.png')
-# flipmario = load_image('flipmario.png')
-# running =True
 
 def draw():
-	global x, y, direct, frame, background
+	global x, y, direct, frame, startground
 	clear_canvas()
 	handle_events()
-	background.draw(350, 262)
-	door.draw()
-	ground.draw()
-	if direct > 0:
-		mario.clip_draw(frame*50, 0, 50, 70, x, y)
-	elif direct < 0:
-		flipmario.clip_draw(frame*50, 0, 50, 70, x, y)
-	elif direct == 0:
-		idlemario.clip_draw(frame*48, 0, 48, 70, x, y)
+	# startground.draw()
+	background.draw(300, 300)
+	for game_object in gameworld.all_objects():
+		game_object.draw()
 
 	update_canvas()
-	frame = (frame+1)%6
-	x += direct * 5
-	delay(0.05)
 
 def update():
 
