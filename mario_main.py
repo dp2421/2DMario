@@ -3,7 +3,8 @@ import game_framework
 import Mariostage
 import start_state
 
-
+from start_ground import StartGround
+from player import Maro
 name = "MainState"
 ground = None
 mario = None
@@ -12,16 +13,16 @@ door = None
 background = None
 flipmario = None
 
-class Ground:
-	def __init__ (self):
-		self.image = load_image('resource/main_ground.png')
-		self.x = 34
-	def draw(self):
-		for i in range(50):
-			self.image.draw(self.x * i,18)
-			self.image.draw(self.x * i, 36)
-			self.image.draw(self.x * i, 54)
-	pass
+# class Ground:
+# 	def __init__ (self):
+# 		self.image = load_image('resource/main_ground.png')
+# 		self.x = 34
+# 	def draw(self):
+# 		for i in range(50):
+# 			self.image.draw(self.x * i,18)
+# 			self.image.draw(self.x * i, 36)
+# 			self.image.draw(self.x * i, 54)
+# 	pass
 class Door:
 	def __init__(self):
 		self.image = load_image('resource/stagedoor.png')
@@ -65,18 +66,26 @@ def handle_events():
             
 def enter():
     global mario, ground, idlemario, door, background, flipmario, y, direct, x, frame
-    ground = Ground()
+    startground = StartGround()
+    mario= pl
     mario = load_image('resource/mariowalk.png')
     idlemario =load_image('resource/idlemario.png')
     door = Door()
     background = load_image('resource/startbackground.png')
     flipmario = load_image('resource/flipmario.png')
-    y=120
-    x= 300
-    direct =0
-    frame = 0
+    game_world.add_object(startground, 0)
+    game_world.add_object(player, 1)
+    # y=120
+    # x= 300
+    # direct =0
+    # frame = 0
     pass
-
+def enter():
+    global boy
+    boy = Boy()
+    grass = Grass()
+    game_world.add_object(grass, 0)
+    game_world.add_object(boy, 1)
 
 def exit():
     global mario, ground, door, background, flipmario, idlemario, direct
