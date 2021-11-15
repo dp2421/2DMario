@@ -8,7 +8,6 @@ from player import Mario
 
 
 name = "MainState"
-ground = None
 mario = None
 idlemario =None
 door = None
@@ -70,7 +69,6 @@ def exit():
 def update():
 	for game_object in gameworld.all_objects():
 		game_object.update()
-	pass
 
 def draw():
 	clear_canvas()
