@@ -67,8 +67,10 @@ def exit():
 	pass
 
 def update():
-	for game_object in gameworld.all_objects():
-		game_object.update()
+	# for game_object in gameworld.all_objects():
+	# 	game_object.update()
+	mario.update()
+	pass
 
 def draw():
 	clear_canvas()
