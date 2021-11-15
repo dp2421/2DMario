@@ -20,14 +20,15 @@ FRAMES_PER_ACTION = 8
 
 
 # Boy Event
-RIGHT_DOWN, LEFT_DOWN, RIGHT_UP, LEFT_UP, SLEEP_TIMER, SPACE = range(6)
+RIGHT_DOWN, LEFT_DOWN, RIGHT_UP, LEFT_UP, SPACE_UP, SPACE_DOWN = range(6)
 
 key_event_table = {
     (SDL_KEYDOWN, SDLK_RIGHT): RIGHT_DOWN,
     (SDL_KEYDOWN, SDLK_LEFT): LEFT_DOWN,
     (SDL_KEYUP, SDLK_RIGHT): RIGHT_UP,
     (SDL_KEYUP, SDLK_LEFT): LEFT_UP,
-    (SDL_KEYDOWN, SDLK_SPACE): SPACE
+    (SDL_KEYUP, SDLK_SPACE): SPACE_UP,
+    (SDL_KEYDOWN, SDLK_SPACE): SPACE_DOWN
 }
 
 
@@ -44,26 +45,40 @@ class IdleState:
             mario.velocity -= RUN_SPEED_PPS
         elif event == LEFT_UP:
             mario.velocity += RUN_SPEED_PPS
-        mario.timer = 1000
 
     def exit(mario, event):
-        if event == SPACE:
-            mario.fire_ball()
+        if event == SPACE_UP:
+            mario.y = 90
         pass
 
     def do(mario):
         mario.frame = (mario.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 3
-        mario.timer -= 1
-        if mario.timer == 0:
-            mario.add_event(SLEEP_TIMER)
 
     def draw(mario):
         if mario.dir == 1:
-            mario.image.clip_draw(int(mario.frame) * 19, 0, 19, 33, mario.x, mario.y)
+            mario.idleimage.clip_draw(int(mario.frame) * 47, 0, 47, 70, mario.x, mario.y)
         else:
-            mario.image.clip_draw(int(mario.frame) * 19, 0, 19, 33, mario.x, mario.y)
+            mario.idleimage.clip_draw(int(mario.frame) * 47, 0, 47, 70, mario.x, mario.y)
 
+class JumpState:
+    def enter(mario, event):
+        if event == SPACE_DOWN:
+            mario.y = 110
+        elif event == SPACE_UP:
+            mario.y = 90
 
+    def exit(mario, event):
+        if event == SPACE_UP:
+            mario.y = 90
+        pass
+
+    def do(mario):
+        mario.frame = (mario.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 3
+    def draw(mario):
+        if mario.dir == 1:
+            mario.idleimage.clip_draw(int(mario.frame) * 47, 0, 47, 70, mario.x, mario.y)
+        else:
+            mario.idleimage.clip_draw(int(mario.frame) * 47, 0, 47, 70, mario.x, mario.y)
 class RunState:
 
     def enter(mario, event):
@@ -80,8 +95,9 @@ class RunState:
         pass
 
     def exit(mario, event):
-        if event == SPACE:
-            mario.fire_ball()
+        if event == SPACE_UP:
+            mario.y = 90
+        pass
 
     def do(mario):
         # fill here
@@ -91,37 +107,18 @@ class RunState:
     @staticmethod
     def draw(mario):
         if mario.dir == 1:
-            mario.image.clip_draw(int(mario.frame) * 19, 0, 19, 66, mario.x, mario.y)
+            mario.image.clip_draw(int(mario.frame) * 50, 0, 50, 70, mario.x, mario.y)
         else:
-            mario.image.clip_draw(int(mario.frame) * 19, 0, 19, 66, mario.x, mario.y)
-
-
-class SleepState:
-
-    def enter(mario, event):
-        mario.frame = 0
-
-    def exit(mario, event):
-        pass
-
-    def do(mario):
-        mario.frame = (mario.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 8
-
-    def draw(mario):
-        if mario.dir == 1:
-            mario.image.clip_composite_draw(int(mario.frame) * 100, 300, 100, 100, 3.141592 / 2, '', mario.x - 25, mario.y - 25, 100, 100)
-        else:
-            mario.image.clip_composite_draw(int(mario.frame) * 100, 200, 100, 100, -3.141592 / 2, '', mario.x + 25, mario.y - 25, 100, 100)
-
+            mario.flipimage.clip_draw(int(mario.frame) * 50, 0, 50, 70, mario.x, mario.y)
 
 
 
 
 
 next_state_table = {
-    IdleState: {RIGHT_UP: RunState, LEFT_UP: RunState, RIGHT_DOWN: RunState, LEFT_DOWN: RunState, SLEEP_TIMER: SleepState, SPACE: IdleState},
-    RunState: {RIGHT_UP: IdleState, LEFT_UP: IdleState, LEFT_DOWN: IdleState, RIGHT_DOWN: IdleState, SPACE: RunState},
-    SleepState: {LEFT_DOWN: RunState, RIGHT_DOWN: RunState, LEFT_UP: RunState, RIGHT_UP: RunState, SPACE: IdleState}
+    IdleState: {RIGHT_UP: RunState, LEFT_UP: RunState, RIGHT_DOWN: RunState, LEFT_DOWN: RunState, SPACE_DOWN: JumpState, SPACE_UP: JumpState},
+    RunState: {RIGHT_UP: IdleState, LEFT_UP: IdleState, LEFT_DOWN: IdleState, RIGHT_DOWN: IdleState, SPACE_DOWN: JumpState, SPACE_UP: IdleState},
+    JumpState: {RIGHT_UP: RunState, LEFT_UP: RunState, LEFT_DOWN: RunState, RIGHT_DOWN: RunState, SPACE_DOWN: JumpState, SPACE_UP: RunState}
 }
 
 class Mario:
@@ -129,7 +126,9 @@ class Mario:
     def __init__(self):
         self.x, self.y = 700 // 2, 90
         # Boy is only once created, so instance image loading is fine
-        self.image = load_image('resource/Mario_run.png')
+        self.image = load_image('resource/mariowalk.png')
+        self.idleimage = load_image('resource/idlemario.png')
+        self.flipimage = load_image('resource/flipmario.png')
         # fill here
         self.dir = 1
         self.velocity = 0
@@ -137,11 +136,6 @@ class Mario:
         self.event_que = []
         self.cur_state = IdleState
         self.cur_state.enter(self, None)
-
-
-    def fire_ball(self):
-        ball = Ball(self.x, self.y, self.dir*3)
-        game_world.add_object(ball, 1)
 
 
     def add_event(self, event):
