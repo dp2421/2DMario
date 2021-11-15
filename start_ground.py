@@ -10,3 +10,6 @@ class StartGround:
             self.image.draw(self.x * i, 36)
             self.image.draw(self.x * i, 54)
     pass
+
+    def update():
+        pass

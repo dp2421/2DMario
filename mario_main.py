@@ -25,16 +25,14 @@ class Door:
 	pass
 
 def handle_events():
-	global running
-	global x
-	global direct
-	global y
 	events = get_events()
 	for event in events:
 		if event.type ==SDL_QUIT:
 			game_framework.quit()
 		elif event.type == SDL_KEYDOWN and event.key == SDLK_ESCAPE:
 			game_framework.quit()
+		else:
+			mario.handle_event(event)
 		# elif event.type == SDL_KEYDOWN:
 		# 	if event.key ==SDLK_RIGHT:
 		# 		direct += 1
@@ -66,28 +64,23 @@ def enter():
     pass
 
 def exit():
-    global mario, ground, door, background
-    del(mario)
-    del(ground)
-    del(door)
-    del(background)
-    pass
+	gameworld.clear()
+	pass
 
+def update():
+	for game_object in gameworld.all_objects():
+		game_object.update()
+	pass
 
 def draw():
-	global x, y, direct, frame, startground
 	clear_canvas()
-	handle_events()
-	# startground.draw()
 	background.draw(300, 300)
 	for game_object in gameworld.all_objects():
 		game_object.draw()
 
 	update_canvas()
 
-def update():
 
-	pass
 
 def pause():
     pass
