@@ -11,5 +11,5 @@ class StartGround:
             self.image.draw(self.x * i, 54)
     pass
 
-    def update():
+    def update(self):
         pass
