@@ -1,13 +1,9 @@
 from pico2d import *
 import game_framework
-import Mariostage
-import start_state
 import gameworld
 
-from start_ground import StartGround
 from player import Mario
-from Door import Door
-
+from stagetile import StageGround
 name = "MainState"
 mario = None
 idlemario = None
@@ -27,14 +23,12 @@ def handle_events():
 
 
 def enter():
-    global mario, startground, background, door
-    door = Door()
-    startground = StartGround()
+    global mario, startground, background
+    startground = StageGround()
     mario = Mario()
     background = load_image('resource/mapbackground.png')
     gameworld.add_object(startground, 0)
     gameworld.add_object(mario, 1)
-    gameworld.add_object(door, 1)
     pass
 
 
@@ -44,9 +38,8 @@ def exit():
 
 
 def update():
-    # for game_object in gameworld.all_objects():
-    # 	game_object.update()
-    mario.update()
+    for game_object in gameworld.all_objects():
+    	game_object.update()
     pass
 
 
@@ -55,7 +48,7 @@ def draw():
     background.draw(300, 300)
     for game_object in gameworld.all_objects():
         game_object.draw()
-
+    print(mario.x)
     update_canvas()
 
 

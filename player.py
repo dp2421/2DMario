@@ -136,7 +136,8 @@ class Mario:
         self.event_que = []
         self.cur_state = IdleState
         self.cur_state.enter(self, None)
-
+    def get_bb(self):
+        return self.x - 25, self.y - 35, self.x + 25, self.y + 25
 
     def add_event(self, event):
         self.event_que.insert(0, event)
