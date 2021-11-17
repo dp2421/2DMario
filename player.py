@@ -1,6 +1,6 @@
 import game_framework
+import stage_1
 from pico2d import *
-
 import gameworld
 
 # Boy Run Speed
@@ -102,9 +102,12 @@ class RunState:
     def do(mario):
         # fill here
         mario.frame = (mario.frame + FRAMES_PER_ACTION*ACTION_PER_TIME*game_framework.frame_time) % 4
-        mario.x += mario.velocity * game_framework.frame_time
+        if game_framework.stack == [stage_1] and mario.x >= 725//2:
+            mario.x = 725//2
+        else:
+            mario.x += mario.velocity * game_framework.frame_time
+
         mario.x = clamp(25, mario.x, 1600 - 25)
-    @staticmethod
     def draw(mario):
         if mario.dir == 1:
             mario.image.clip_draw(int(mario.frame) * 50, 0, 50, 70, mario.x, mario.y)
@@ -124,7 +127,7 @@ next_state_table = {
 class Mario:
 
     def __init__(self):
-        self.x, self.y = 700 // 2, 90
+        self.x, self.y = 100 // 2, 90
         # Boy is only once created, so instance image loading is fine
         self.image = load_image('resource/mariowalk.png')
         self.idleimage = load_image('resource/idlemario.png')

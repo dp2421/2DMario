@@ -4,12 +4,11 @@ import gameworld
 
 from player import Mario
 from stagetile import StageGround
-name = "MainState"
+name = "stage_1"
 mario = None
 idlemario = None
 background = None
 flipmario = None
-
 
 def handle_events():
     events = get_events()

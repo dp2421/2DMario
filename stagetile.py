@@ -1,7 +1,7 @@
 from pico2d import *
 from player import Mario
 
-mario = Mario()
+# mario = Mario()
 
 class StageGround:
     def __init__ (self):
@@ -16,9 +16,9 @@ class StageGround:
         pass
 
     def update(self):
-        if mario.dir == 1:
-            self.x -= 1
-        else:
-            self.x += 1
+        # if mario.dir == 1:
+        #     self.x -= 1
+        # else:
+        #     self.x += 1
 
         pass

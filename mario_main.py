@@ -1,8 +1,6 @@
 from pico2d import *
 import game_framework
 import stage_1
-import Mariostage
-import start_state
 import gameworld
 
 from start_ground import StartGround
