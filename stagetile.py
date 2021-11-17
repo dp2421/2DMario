@@ -8,7 +8,7 @@ class StageGround:
         self.image = load_image('resource/stagetile.png')
         self.underimage = load_image('resource/stagegrass.png')
         self.x = 34
-    def draw(self):
+    def draw(self, temp):
         for i in range(50):
             self.image.draw(self.x * i,0)
             self.image.draw(self.x * i, 23)
@@ -16,9 +16,4 @@ class StageGround:
         pass
 
     def update(self):
-        # if mario.dir == 1:
-        #     self.x -= 1
-        # else:
-        #     self.x += 1
-
         pass

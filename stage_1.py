@@ -54,6 +54,7 @@ def update():
     	game_object.update()
 
     if collide(mario, monster):
+        monster.draw()
         gameworld.remove_object(monster)
 
     pass
