@@ -4,11 +4,22 @@ import gameworld
 
 from player import Mario
 from stagetile import StageGround
+from monster import Mon
 name = "stage_1"
 mario = None
 idlemario = None
 background = None
 flipmario = None
+
+def collide(a, b):
+    left_a, bottom_a, right_a, top_a = a.get_bb()
+    left_b, bottom_b, right_b, top_b = b.get_bb()
+    if left_a > right_b: return False
+    if right_a < left_b: return False
+    if top_a < bottom_b: return False
+    if bottom_a > top_b: return False
+    return True
+
 
 def handle_events():
     events = get_events()
@@ -22,12 +33,14 @@ def handle_events():
 
 
 def enter():
-    global mario, startground, background
+    global mario, startground, background, monster
     startground = StageGround()
     mario = Mario()
+    monster = Mon()
     background = load_image('resource/mapbackground.png')
     gameworld.add_object(startground, 0)
     gameworld.add_object(mario, 1)
+    gameworld.add_object(monster, 1)
     pass
 
 
@@ -39,6 +52,10 @@ def exit():
 def update():
     for game_object in gameworld.all_objects():
     	game_object.update()
+
+    if collide(mario, monster):
+        gameworld.remove_object(monster)
+
     pass
 
 
@@ -47,7 +64,6 @@ def draw():
     background.draw(300, 300)
     for game_object in gameworld.all_objects():
         game_object.draw()
-    print(mario.x)
     update_canvas()
 
 
