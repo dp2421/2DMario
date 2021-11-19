@@ -51,10 +51,9 @@ def exit():
 
 def update():
     for game_object in gameworld.all_objects():
-    	game_object.update()
+        game_object.update()
 
     if collide(mario, monster):
-        monster.draw()
         gameworld.remove_object(monster)
 
     pass

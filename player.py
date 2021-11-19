@@ -63,7 +63,7 @@ class IdleState:
 class JumpState:
     def enter(mario, event):
         if event == SPACE_DOWN:
-            mario.y = 110
+            mario.y = 120
         elif event == SPACE_UP:
             mario.y = 90
 

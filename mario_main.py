@@ -57,8 +57,6 @@ def exit():
 def update():
     for game_object in gameworld.all_objects():
     	game_object.update()
-    # if collide(mario, door) and
-    #     game_framework.change_state(stage_1)
 
 
     pass
