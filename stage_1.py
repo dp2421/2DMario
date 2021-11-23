@@ -2,6 +2,7 @@ from pico2d import *
 import game_framework
 import gameworld
 
+from block import Blocks
 from player import Mario
 from stagetile import StageGround
 from monster import Mon
@@ -33,14 +34,16 @@ def handle_events():
 
 
 def enter():
-    global mario, startground, background, monster
+    global mario, startground, background, monster, qblock
     startground = StageGround()
     mario = Mario()
     monster = Mon()
+    qblock= Blocks()
     background = load_image('resource/mapbackground.png')
     gameworld.add_object(startground, 0)
     gameworld.add_object(mario, 1)
     gameworld.add_object(monster, 1)
+    gameworld.add_object(qblock, 1)
     pass
 
 
@@ -55,6 +58,10 @@ def update():
 
     if collide(mario, monster):
         gameworld.remove_object(monster)
+
+    if collide(mario, qblock):
+        gameworld.remove_object(qblock)
+
 
     pass
 
