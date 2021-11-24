@@ -2,6 +2,7 @@ from pico2d import *
 import game_framework
 import gameworld
 
+from mushroom import Mushrooms
 from block import Blocks
 from player import Mario
 from stagetile import StageGround
@@ -34,7 +35,8 @@ def handle_events():
 
 
 def enter():
-    global mario, startground, background, monster, qblock
+    global mario, startground, background, monster, qblock, mushrooms
+    mushrooms = Mushrooms()
     startground = StageGround()
     mario = Mario()
     monster = Mon()
@@ -44,6 +46,7 @@ def enter():
     gameworld.add_object(mario, 1)
     gameworld.add_object(monster, 1)
     gameworld.add_object(qblock, 1)
+    gameworld.add_object(mushrooms, 0)
     pass
 
 
