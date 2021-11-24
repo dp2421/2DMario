@@ -63,7 +63,9 @@ def update():
         gameworld.remove_object(monster)
 
     if collide(mario, qblock):
-        gameworld.remove_object(qblock)
+        mushrooms.y =180
+
+
 
 
     pass

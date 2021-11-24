@@ -1,6 +1,7 @@
 import game_framework
 import stage_1
 from pico2d import *
+from stagetile import StageGround
 import gameworld
 
 # Boy Run Speed
@@ -33,7 +34,6 @@ key_event_table = {
 
 
 # Boy States
-
 class IdleState:
 
     def enter(mario, event):
