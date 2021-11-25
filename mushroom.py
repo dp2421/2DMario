@@ -5,13 +5,16 @@ TIME_PER_ACTION = 1.0
 ACTION_PER_TIME = 1.0/TIME_PER_ACTION
 FRAMES_PER_ACTION = 4
 
+class PopState:
+    def __init__(self):
+        pass
 
 class Mushrooms:
     def __init__(self):
         self.image = load_image('resource/rooms.png')
         self.x = 200
         self.y = 150
-        self.frame=0
+        self.frame = 0
 
     def get_bb(self):
         return self.x-17, self.y-17, self.x+17, self.y+17
