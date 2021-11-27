@@ -1,72 +1,81 @@
 from pico2d import *
 import game_framework
-import stage_1
+import Mariostage
+import start_state
 import gameworld
-
 from start_ground import StartGround
 from player import Mario
-from Door import Door
 
 
 name = "MainState"
 mario = None
 idlemario =None
+door = None
 background = None
 flipmario = None
 
-
-
-def collide(a, b):
-    left_a, bottom_a, right_a, top_a = a.get_bb()
-    left_b, bottom_b, right_b, top_b = b.get_bb()
-    if left_a > right_b: return False
-    if right_a < left_b: return False
-    if top_a < bottom_b: return False
-    if bottom_a > top_b: return False
-    return True
+class Door:
+	def __init__(self):
+		self.image = load_image('resource/stagedoor.png')
+		self.x=500
+	def draw(self):
+		self.image.draw(self.x, 100)
+		self.image.draw(self.x+100, 100)
+	pass
 
 def handle_events():
-    events = get_events()
-    for event in events:
-        if event.type ==SDL_QUIT:
-            game_framework.quit()
-        elif event.type == SDL_KEYDOWN and event.key == SDLK_ESCAPE:
-            game_framework.quit()
-        elif event.type == SDL_KEYDOWN and event.key==SDLK_DOWN and collide(mario, door):
-            game_framework.change_state(stage_1)
-        else:
-            mario.handle_event(event)
+	events = get_events()
+	for event in events:
+		if event.type ==SDL_QUIT:
+			game_framework.quit()
+		elif event.type == SDL_KEYDOWN and event.key == SDLK_ESCAPE:
+			game_framework.quit()
+		else:
+			mario.handle_event(event)
+		# elif event.type == SDL_KEYDOWN:
+		# 	if event.key ==SDLK_RIGHT:
+		# 		direct += 1
+		# 	elif event.key ==SDLK_LEFT:
+		# 		direct -= 1
+		# 	elif event.key ==SDLK_SPACE:
+		# 		y+=20
+		# 	elif event.key == SDLK_DOWN:
+		# 		if x>=500 and x<650:
+		# 			game_framework.change_state(Mariostage)
+		# 		elif x>=600 and x<=650:
+		# 			game_framework.change_state(Mariostage)
+		# elif event.type == SDL_KEYUP:
+		# 	if event.key ==SDLK_RIGHT:
+		# 		direct -= 1
+		# 	elif event.key ==SDLK_LEFT:
+		# 		direct += 1
+		# 	elif event.key == SDLK_SPACE:
+		# 		y -=20
 
             
 def enter():
-    global mario, startground, background, door
-    door = Door()
+    global mario, startground, background
     startground = StartGround()
-    mario = Mario()
+    mario= Mario()
     background = load_image('resource/mapbackground.png')
     gameworld.add_object(startground, 0)
-    gameworld.add_object(door, 1)
     gameworld.add_object(mario, 1)
     pass
 
 def exit():
-    gameworld.clear()
-    # gameworld.destroy()
-    pass
+	gameworld.clear()
+	pass
 
 def update():
-    for game_object in gameworld.all_objects():
-    	game_object.update()
-
-
-    pass
+	for game_object in gameworld.all_objects():
+		game_object.update()
 
 def draw():
-    clear_canvas()
-    background.draw(300, 300)
-    for game_object in gameworld.all_objects():
-        game_object.draw()
-    update_canvas()
+	clear_canvas()
+	background.draw(300, 300)
+	for game_object in gameworld.all_objects():
+		game_object.draw()
+	update_canvas()
 
 
 

@@ -1,5 +1,5 @@
 import game_framework
-import stage_1
+# import stage_1
 from pico2d import *
 from stagetile import StageGround
 import gameworld
@@ -101,7 +101,7 @@ class RunState:
 
     def do(mario):
         mario.frame = (mario.frame + FRAMES_PER_ACTION*ACTION_PER_TIME*game_framework.frame_time) % 4
-        if game_framework.stack == [stage_1] and mario.x >= 725//2:
+        if game_framework.stack == ['stage_1'] and mario.x >= 725//2:
             mario.x = 725//2
         else:
             mario.x += mario.velocity * game_framework.frame_time

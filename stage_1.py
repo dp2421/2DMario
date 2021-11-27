@@ -64,6 +64,7 @@ def update():
 
     if collide(mario, qblock):
         mushrooms.y =180
+        # mushrooms.x =100
 
 
 
