@@ -1,6 +1,7 @@
 from pico2d import *
 import game_framework
 import gameworld
+import server
 
 from mushroom import Mushrooms
 from block import Blocks
@@ -38,10 +39,10 @@ def enter():
     global mario, startground, background, monster, qblock, mushrooms
     mushrooms = Mushrooms()
     startground = StageGround()
-    mario = Mario()
-    monster = Mon()
-    qblock= Blocks()
-    background = load_image('resource/mapbackground.png')
+    server.mario = Mario()
+    server.monster = Mon()
+    server.block = Blocks()
+    server.ground = load_image('resource/mapbackground.png')
     gameworld.add_object(startground, 0)
     gameworld.add_object(mario, 1)
     gameworld.add_object(monster, 1)
