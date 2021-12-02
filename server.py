@@ -4,4 +4,5 @@ monster = None
 block = None
 door = None
 stagetile = None
-ground = None
+background = None
+

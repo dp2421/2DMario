@@ -10,10 +10,6 @@ from player import Mario
 from stagetile import StageGround
 from monster import Mon
 name = "stage_1"
-mario = None
-idlemario = None
-background = None
-flipmario = None
 
 def collide(a, b):
     left_a, bottom_a, right_a, top_a = a.get_bb()
@@ -33,7 +29,7 @@ def handle_events():
         elif event.type == SDL_KEYDOWN and event.key == SDLK_ESCAPE:
             game_framework.quit()
         else:
-            mario.handle_event(event)
+            server.mario.handle_event(event)
 
 
 def enter():
@@ -41,8 +37,8 @@ def enter():
     server.mario = Mario()
     server.monster = Mon()
     server.block = Blocks()
-    server.ground = StageGround()
-    gameworld.add_object(server.ground, 0)
+    server.background = StageBackground()
+    gameworld.add_object(server.background, 0)
     gameworld.add_object(server.mario, 1)
     gameworld.add_object(server.monster, 1)
     gameworld.add_object(server.block, 1)
@@ -63,7 +59,7 @@ def update():
         gameworld.remove_object(server.monster)
 
     if collide(server.mario, server.block):
-        server.mushrooms.y =180
+        server.mushroom.y =180
         # mushrooms.x =100
 
 

@@ -3,6 +3,7 @@ import game_framework
 import stage_1
 import gameworld
 from start_ground import StartGround
+from background import StageBackground
 from player import Mario
 import server
 
@@ -56,15 +57,17 @@ def handle_events():
 
             
 def enter():
-    global startground, background, door
-    startground = StartGround()
-    server.mario= Mario()
-    door = Door()
-    background = load_image('resource/mapbackground.png')
-    gameworld.add_object(door, 1)
-    gameworld.add_object(startground, 0)
-    gameworld.add_object(server.mario, 1)
-    pass
+	global startground
+	startground = StartGround()
+	server.mario= Mario()
+	server.door = Door()
+	server.background = StageBackground()
+	gameworld.add_object(server.door, 1)
+	gameworld.add_object(server.background,0)
+	gameworld.add_object(startground, 0)
+	gameworld.add_object(server.mario, 1)
+
+	pass
 
 def exit():
 	gameworld.clear()
@@ -76,7 +79,6 @@ def update():
 
 def draw():
 	clear_canvas()
-	background.draw(300, 300)
 	for game_object in gameworld.all_objects():
 		game_object.draw()
 	update_canvas()
