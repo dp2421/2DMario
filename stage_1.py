@@ -3,6 +3,7 @@ import game_framework
 import gameworld
 import server
 
+from background import StageBackground
 from mushroom import Mushrooms
 from block import Blocks
 from player import Mario
@@ -36,18 +37,16 @@ def handle_events():
 
 
 def enter():
-    global mario, startground, background, monster, qblock, mushrooms
-    mushrooms = Mushrooms()
-    startground = StageGround()
+    server.mushroom = Mushrooms()
     server.mario = Mario()
     server.monster = Mon()
     server.block = Blocks()
-    server.ground = load_image('resource/mapbackground.png')
-    gameworld.add_object(startground, 0)
-    gameworld.add_object(mario, 1)
-    gameworld.add_object(monster, 1)
-    gameworld.add_object(qblock, 1)
-    gameworld.add_object(mushrooms, 0)
+    server.ground = StageGround()
+    gameworld.add_object(server.ground, 0)
+    gameworld.add_object(server.mario, 1)
+    gameworld.add_object(server.monster, 1)
+    gameworld.add_object(server.block, 1)
+    gameworld.add_object(server.mushroom, 0)
     pass
 
 
@@ -60,11 +59,11 @@ def update():
     for game_object in gameworld.all_objects():
         game_object.update()
 
-    if collide(mario, monster):
-        gameworld.remove_object(monster)
+    if collide(server.mario, server.monster):
+        gameworld.remove_object(server.monster)
 
-    if collide(mario, qblock):
-        mushrooms.y =180
+    if collide(server.mario, server.block):
+        server.mushrooms.y =180
         # mushrooms.x =100
 
 
@@ -75,7 +74,6 @@ def update():
 
 def draw():
     clear_canvas()
-    background.draw(300, 300)
     for game_object in gameworld.all_objects():
         game_object.draw()
     update_canvas()

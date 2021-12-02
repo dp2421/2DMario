@@ -1,11 +1,10 @@
 from pico2d import *
 import game_framework
-import Mariostage
-import start_state
+import stage_1
 import gameworld
 from start_ground import StartGround
 from player import Mario
-
+import server
 
 name = "MainState"
 mario = None
@@ -17,11 +16,12 @@ flipmario = None
 class Door:
 	def __init__(self):
 		self.image = load_image('resource/stagedoor.png')
-		self.x=500
+		self.x=600
 	def draw(self):
 		self.image.draw(self.x, 100)
-		self.image.draw(self.x+100, 100)
 	pass
+	def update(self):
+		pass
 
 def handle_events():
 	events = get_events()
@@ -30,8 +30,10 @@ def handle_events():
 			game_framework.quit()
 		elif event.type == SDL_KEYDOWN and event.key == SDLK_ESCAPE:
 			game_framework.quit()
+		elif server.mario.x> 550 and server.mario.x <650 and event.type == SDL_KEYDOWN and event.key == SDLK_DOWN:
+			game_framework.change_state(stage_1)
 		else:
-			mario.handle_event(event)
+			server.mario.handle_event(event)
 		# elif event.type == SDL_KEYDOWN:
 		# 	if event.key ==SDLK_RIGHT:
 		# 		direct += 1
@@ -54,12 +56,14 @@ def handle_events():
 
             
 def enter():
-    global mario, startground, background
+    global startground, background, door
     startground = StartGround()
-    mario= Mario()
+    server.mario= Mario()
+    door = Door()
     background = load_image('resource/mapbackground.png')
+    gameworld.add_object(door, 1)
     gameworld.add_object(startground, 0)
-    gameworld.add_object(mario, 1)
+    gameworld.add_object(server.mario, 1)
     pass
 
 def exit():
