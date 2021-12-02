@@ -56,10 +56,15 @@ class IdleState:
         mario.frame = (mario.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 3
 
     def draw(mario):
+        cx, cy = server.background.canvas_width // 2, 100
         if mario.dir == 1:
-            mario.idleimage.clip_draw(int(mario.frame) * 47, 0, 47, 70, mario.x, mario.y)
+            mario.idleimage.clip_draw(int(mario.frame) * 50, 0, 50, 70, cx, cy)
         else:
-            mario.idleimage.clip_draw(int(mario.frame) * 47, 0, 47, 70, mario.x, mario.y)
+            mario.idleimage.clip_draw(int(mario.frame) * 50, 0, 50, 70, cx, cy)
+        # if mario.dir == 1:
+        #     mario.idleimage.clip_draw(int(mario.frame) * 47, 0, 47, 70, mario.x, mario.y)
+        # else:
+        #     mario.idleimage.clip_draw(int(mario.frame) * 47, 0, 47, 70, mario.x, mario.y)
 
 class JumpState:
     def enter(mario, event):
@@ -76,10 +81,15 @@ class JumpState:
     def do(mario):
         mario.frame = (mario.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 3
     def draw(mario):
+        cx, cy = server.background.canvas_width // 2, 100
         if mario.dir == 1:
-            mario.idleimage.clip_draw(int(mario.frame) * 47, 0, 47, 70, mario.x, mario.y)
+            mario.idleimage.clip_draw(int(mario.frame) * 50, 0, 50, 70, cx, cy)
         else:
-            mario.idleimage.clip_draw(int(mario.frame) * 47, 0, 47, 70, mario.x, mario.y)
+            mario.idleimage.clip_draw(int(mario.frame) * 50, 0, 50, 70, cx, cy)
+        # if mario.dir == 1:
+        #     mario.idleimage.clip_draw(int(mario.frame) * 47, 0, 47, 70, mario.x, mario.y)
+        # else:
+        #     mario.idleimage.clip_draw(int(mario.frame) * 47, 0, 47, 70, mario.x, mario.y)
 class RunState:
 
     def enter(mario, event):
@@ -102,6 +112,7 @@ class RunState:
 
     def do(mario):
         mario.frame = (mario.frame + FRAMES_PER_ACTION*ACTION_PER_TIME*game_framework.frame_time) % 4
+        # mario.x += mario.velocity * game_framework.frame_time
         if game_framework.stack == ['stage_1'] and mario.x >= 725//2:
             mario.x = 725//2
         else:
@@ -109,10 +120,24 @@ class RunState:
 
         mario.x = clamp(25, mario.x, 1600 - 25)
     def draw(mario):
-        if mario.dir == 1:
-            mario.image.clip_draw(int(mario.frame) * 50, 0, 50, 70, mario.x, mario.y)
-        else:
-            mario.flipimage.clip_draw(int(mario.frame) * 50, 0, 50, 70, mario.x, mario.y)
+        cx, cy = server.background.canvas_width // 2, 100
+        # if mario.dir == 1:
+        #     mario.image.clip_draw(int(mario.frame) * 50, 0, 50, 70, mario.x, mario.y)
+        # else:
+        #     mario.flipimage.clip_draw(int(mario.frame) * 50, 0, 50, 70, mario.x, mario.y)
+        #
+        if mario.velocity > 0:
+            mario.image.clip_draw(int(mario.frame) * 50, 0, 50, 70, cx, cy)
+            mario.dir = 1
+        elif mario.velocity < 0:
+            mario.image.clip_draw(int(mario.frame) * 50, 0, 50, 70, cx, cy)
+            mario.dir = -1
+        # else:
+        #     # boy is idle
+        #     if mario.dir == 1:
+        #         mario.image.clip_draw(int(mario.frame) * 50, 0, 50, 70, cx, cy)
+        #     else:
+        #         mario.image.clip_draw(int(mario.frame) * 50, 0, 50, 70, cx, cy)
 
 
 
