@@ -58,13 +58,13 @@ class IdleState:
     def draw(mario):
         cx, cy = server.background.canvas_width // 2, 100
         if mario.dir == 1:
-            mario.idleimage.clip_draw(int(mario.frame) * 50, 0, 50, 70, cx, cy)
+            mario.idleimage.draw(cx, cy)
         else:
-            mario.idleimage.clip_draw(int(mario.frame) * 50, 0, 50, 70, cx, cy)
+            mario.idleimage.draw(cx, cy)
         # if mario.dir == 1:
-        #     mario.idleimage.clip_draw(int(mario.frame) * 47, 0, 47, 70, mario.x, mario.y)
+        #     mario.idleimage.clip_draw(int(mario.frame) * 47, 0, 47, 70, cx, cy)
         # else:
-        #     mario.idleimage.clip_draw(int(mario.frame) * 47, 0, 47, 70, mario.x, mario.y)
+        #     mario.idleimage.clip_draw(int(mario.frame) * 47, 0, 47, 70, cx, cy)
 
 class JumpState:
     def enter(mario, event):
@@ -79,13 +79,13 @@ class JumpState:
         pass
 
     def do(mario):
-        mario.frame = (mario.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 3
+        mario.frame = (mario.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 2
     def draw(mario):
         cx, cy = server.background.canvas_width // 2, 100
         if mario.dir == 1:
-            mario.idleimage.clip_draw(int(mario.frame) * 50, 0, 50, 70, cx, cy)
+            mario.idleimage.draw(cx, cy)
         else:
-            mario.idleimage.clip_draw(int(mario.frame) * 50, 0, 50, 70, cx, cy)
+            mario.idleimage.draw(cx, cy)
         # if mario.dir == 1:
         #     mario.idleimage.clip_draw(int(mario.frame) * 47, 0, 47, 70, mario.x, mario.y)
         # else:
@@ -127,10 +127,10 @@ class RunState:
         #     mario.flipimage.clip_draw(int(mario.frame) * 50, 0, 50, 70, mario.x, mario.y)
         #
         if mario.velocity > 0:
-            mario.image.clip_draw(int(mario.frame) * 50, 0, 50, 70, cx, cy)
+            mario.image.clip_draw(int(mario.frame) * 140, 0, 140, 278, cx, cy)
             mario.dir = 1
         elif mario.velocity < 0:
-            mario.image.clip_draw(int(mario.frame) * 50, 0, 50, 70, cx, cy)
+            mario.image.clip_draw(int(mario.frame) * 140, 0, 140, 278, cx, cy)
             mario.dir = -1
         # else:
         #     # boy is idle
