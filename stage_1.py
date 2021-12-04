@@ -5,7 +5,6 @@ import server
 
 from background import StageBackground
 from mushroom import Mushrooms
-from block import Blocks
 from player import Mario
 from stagetile import StageGround
 from monster import Mon
@@ -36,14 +35,12 @@ def enter():
     server.mushroom = Mushrooms()
     server.mario = Mario()
     server.monster = Mon()
-    server.block = Blocks()
     server.stagetile = StageGround()
     server.background = StageBackground()
     gameworld.add_object(server.stagetile, 1)
     gameworld.add_object(server.background, 0)
     gameworld.add_object(server.mario, 1)
     gameworld.add_object(server.monster, 1)
-    gameworld.add_object(server.block, 1)
     gameworld.add_object(server.mushroom, 0)
     pass
 
@@ -60,9 +57,9 @@ def update():
     if collide(server.mario, server.monster):
         gameworld.remove_object(server.monster)
 
-    if collide(server.mario, server.block):
-        server.mushroom.y =180
-        # mushrooms.x =100
+    # if collide(server.mario, server.block):
+    #     server.mushroom.y =180
+    #     # mushrooms.x =100
 
 
 
