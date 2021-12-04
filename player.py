@@ -59,7 +59,6 @@ class IdleState:
     def draw(mario):
         # cx, cy = server.background.canvas_width // 2, 100
         if game_framework.stack == [mario_main]:
-            print("check")
             cx, cy = mario.x, 100
         else:
             cx, cy = mario.x - server.background.window_left, 100
@@ -121,7 +120,6 @@ class RunState:
         mario.x = clamp(25, mario.x, 1600 - 25)
     def draw(mario):
         if game_framework.stack == [mario_main]:
-            print("check")
             cx, cy = mario.x, 100
         else:
             cx, cy = mario.x - server.background.window_left, 100
