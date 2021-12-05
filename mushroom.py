@@ -13,7 +13,7 @@ class Mushrooms:
     def __init__(self):
         self.image = load_image('resource/rooms.png')
         self.x = 200
-        self.y = 150
+        self.y = 0
         self.frame = 0
 
     def get_bb(self):

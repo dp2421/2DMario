@@ -31,7 +31,7 @@ class StageGround:
         self.w = self.image.w
         self.h = self.image.h
         self.x = 34
-        self.by=150
+        self.by=200
         self.cx =0
         self.frame = 0
 
