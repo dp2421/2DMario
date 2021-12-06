@@ -40,7 +40,8 @@ def enter():
     gameworld.add_object(server.stagetile, 1)
     gameworld.add_object(server.background, 0)
     gameworld.add_object(server.mario, 1)
-    gameworld.add_object(server.monster, 1)
+    for i in range(10):
+        gameworld.add_object(server.monster, 1)
     gameworld.add_object(server.mushroom, 0)
     pass
 
@@ -60,10 +61,6 @@ def update():
     # if collide(server.mario, server.block):
     #     server.mushroom.y =180
     #     # mushrooms.x =100
-
-
-
-
     pass
 
 

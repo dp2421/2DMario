@@ -1,12 +1,7 @@
 from pico2d import *
 import game_framework
-import gameworld
+import random
 
-PIXEL_PER_METER = (10.0 / 0.3)
-RUN_SPEED_KMPH = 10.0
-RUN_SPEED_MPM = (RUN_SPEED_KMPH * 1000.0 / 60.0)
-RUN_SPEED_MPS = (RUN_SPEED_MPM / 60.0)
-RUN_SPEED_PPS = (RUN_SPEED_MPS * PIXEL_PER_METER)
 # Boy Action Speed
 # fill expressions correctly
 TIME_PER_ACTION = 1.0
@@ -14,7 +9,7 @@ ACTION_PER_TIME = 1.0/TIME_PER_ACTION
 FRAMES_PER_ACTION = 4
 class Mon:
     def __init__(self):
-        self.x = 200
+        self.x = random.randint(0, 5000)
         self.y = 80
         self.image = load_image('resource/monster.png')
         self.dieimage = load_image('resource/monsterdie.png')
@@ -43,4 +38,4 @@ class Mon:
 
     def draw(self):
         self.image.clip_draw(int(self.frame)*35, 0, 35, 53, self.x, self.y)
-        self.dieimage.clip_draw(int(self.dframe)*44, 0, 44, 53, self.x, self.y)
+        # self.dieimage.clip_draw(int(self.dframe)*44, 0, 44, 53, self.x, self.y)

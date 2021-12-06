@@ -35,25 +35,6 @@ def handle_events():
 			game_framework.change_state(stage_1)
 		else:
 			server.mario.handle_event(event)
-		# elif event.type == SDL_KEYDOWN:
-		# 	if event.key ==SDLK_RIGHT:
-		# 		direct += 1
-		# 	elif event.key ==SDLK_LEFT:
-		# 		direct -= 1
-		# 	elif event.key ==SDLK_SPACE:
-		# 		y+=20
-		# 	elif event.key == SDLK_DOWN:
-		# 		if x>=500 and x<650:
-		# 			game_framework.change_state(Mariostage)
-		# 		elif x>=600 and x<=650:
-		# 			game_framework.change_state(Mariostage)
-		# elif event.type == SDL_KEYUP:
-		# 	if event.key ==SDLK_RIGHT:
-		# 		direct -= 1
-		# 	elif event.key ==SDLK_LEFT:
-		# 		direct += 1
-		# 	elif event.key == SDLK_SPACE:
-		# 		y -=20
 
             
 def enter():
