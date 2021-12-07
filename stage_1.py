@@ -35,13 +35,14 @@ def enter():
     server.mushroom = Mushrooms()
     server.mario = Mario()
     server.monster = Mon()
+    count = [Mon() for i in range(20)]
     server.stagetile = StageGround()
+    for server.monster in count:
+        gameworld.add_object(server.monster, 1)
     server.background = StageBackground()
     gameworld.add_object(server.stagetile, 1)
     gameworld.add_object(server.background, 0)
     gameworld.add_object(server.mario, 1)
-    for i in range(10):
-        gameworld.add_object(server.monster, 1)
     gameworld.add_object(server.mushroom, 0)
     pass
 

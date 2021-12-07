@@ -1,7 +1,7 @@
 from pico2d import *
 import game_framework
 import random
-
+import server
 # Boy Action Speed
 # fill expressions correctly
 TIME_PER_ACTION = 1.0
@@ -9,13 +9,17 @@ ACTION_PER_TIME = 1.0/TIME_PER_ACTION
 FRAMES_PER_ACTION = 4
 class Mon:
     def __init__(self):
-        self.x = random.randint(0, 5000)
+        self.x = random.randint(200, 5000)
+        self.maxx = self.x + 100
+        self.minx = self.x - 100
         self.y = 80
         self.image = load_image('resource/monster.png')
         self.dieimage = load_image('resource/monsterdie.png')
         self.frame = 0
         self.dframe = 0
-        self.dir = 0.1 # dir -1:왼쪽 dir 1: 오른쪽
+        self.rand = random.random()
+        self.dir = self.rand  # dir -1:왼쪽 dir 1: 오른쪽
+        self.cx=0
 
 
     def get_bb(self):
@@ -29,13 +33,17 @@ class Mon:
     def update(self):
         self.frame = (self.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 2
         self.dframe =(self.dframe + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 3
-        if self.x >= 250:
-            self.dir = -0.1
-        elif self.x <= 150:
-            self.dir = 0.1
+        if server.mario.velocity > 0 and server.mario.x>=350:
+            self.cx -= 1
+        elif server.mario.velocity < 0 and server.mario.x>=350:
+            self.cx += 1
+        if self.x >= self.maxx:
+            self.dir = -random.random()
+        elif self.x <= self.minx:
+            self.dir = random.random()
         self.x += self.dir
         pass
 
     def draw(self):
-        self.image.clip_draw(int(self.frame)*35, 0, 35, 53, self.x, self.y)
+        self.image.clip_draw(int(self.frame)*35, 0, 35, 53, self.x+self.cx, self.y)
         # self.dieimage.clip_draw(int(self.dframe)*44, 0, 44, 53, self.x, self.y)
