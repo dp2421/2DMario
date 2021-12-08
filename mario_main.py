@@ -47,7 +47,6 @@ def enter():
 	gameworld.add_object(server.background,0)
 	gameworld.add_object(startground, 0)
 	gameworld.add_object(server.mario, 1)
-
 	pass
 
 def exit():
@@ -63,8 +62,6 @@ def draw():
 	for game_object in gameworld.all_objects():
 		game_object.draw()
 	update_canvas()
-
-
 
 def pause():
     pass

@@ -2,13 +2,12 @@ import game_framework
 import mario_main
 from pico2d import *
 
-
 name = "TitleState"
 image = None
 spaceimage = None
 mainsign=None
 
-Frame=0
+Frame = 0
 def enter():
     global image
     global spaceimage
@@ -30,14 +29,14 @@ def exit():
 
 
 def handle_events():
-    events=get_events()
+    events = get_events()
     for event in events:
-        if event.type==SDL_QUIT:
+        if event.type == SDL_QUIT:
             game_framework.quit()
         else:
-            if(event.type, event.key)==(SDL_KEYDOWN,SDLK_ESCAPE):
+            if(event.type, event.key) == (SDL_KEYDOWN, SDLK_ESCAPE):
                 game_framework.quit()
-            elif(event.type,event.key)==(SDL_KEYDOWN,SDLK_SPACE):
+            elif(event.type,event.key) == (SDL_KEYDOWN, SDLK_SPACE):
                 game_framework.change_state(mario_main)
     pass
 

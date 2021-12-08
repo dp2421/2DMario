@@ -5,21 +5,18 @@ import server
 import mario_main
 import gameworld
 
-# Boy Run Speed
-# fill expressions correctly
 PIXEL_PER_METER = (10.0 / 0.3)
 RUN_SPEED_KMPH = 20.0
 RUN_SPEED_MPM = (RUN_SPEED_KMPH * 1000.0 / 60.0)
 RUN_SPEED_MPS = (RUN_SPEED_MPM / 60.0)
 RUN_SPEED_PPS = (RUN_SPEED_MPS * PIXEL_PER_METER)
 
-# Boy Action Speed
-# fill expressions correctly
+
 TIME_PER_ACTION = 0.5
 ACTION_PER_TIME = 1.0/TIME_PER_ACTION
 FRAMES_PER_ACTION = 4
 
-# Boy Event
+
 RIGHT_DOWN, LEFT_DOWN, RIGHT_UP, LEFT_UP, SPACE_UP, SPACE_DOWN = range(6)
 
 key_event_table = {
@@ -47,10 +44,7 @@ class IdleState:
         elif event == SPACE_DOWN:
             pass
 
-
     def exit(mario, event):
-        if event == SPACE_UP:
-            mario.y = 90
         pass
 
     def do(mario):
@@ -65,30 +59,33 @@ class IdleState:
         if mario.dir == 1:
             mario.idleimage.draw(cx, cy)
         else:
-            mario.idleimage.draw(cx, cy)
+            mario.flipidle .draw(cx, cy)
 
-# class JumpState:
-#     def enter(mario, event):
-#         if event == SPACE_DOWN:
-#             mario.y = 200
-#         elif event == SPACE_UP:
-#             mario.y = 90
-#
-#     def exit(mario, event):
-#         pass
-#
-#     def do(mario):
-#         mario.frame = (mario.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 2
-#     def draw(mario):
-#         cx, cy = server.background.canvas_width // 2, 100
-#         if mario.dir == 1:
-#             mario.jumpimage.draw(cx, cy)
-#         else:
-#             mario.jumpimage.draw(cx, cy)
-#         # if mario.dir == 1:
-#         #     mario.idleimage.clip_draw(int(mario.frame) * 47, 0, 47, 70, mario.x, mario.y)
-#         # else:
-#         #     mario.idleimage.clip_draw(int(mario.frame) * 47, 0, 47, 70, mario.x, mario.y)
+class JumpState:
+    def enter(mario, event):
+        if event == SPACE_DOWN:
+            mario.y = 160
+        elif event == SPACE_UP:
+            mario.y = 90
+
+    def exit(mario, event):
+        pass
+
+    def do(mario):
+        mario.frame = (mario.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 2
+    def draw(mario):
+
+        if game_framework.stack == [mario_main]:
+            if mario.dir == 1:
+                mario.jumpimage.draw(mario.x, mario.y)
+            else:
+                mario.flipjump.draw(mario.x, mario.y)
+        else:
+            if mario.dir == 1:
+                mario.jumpimage.draw(mario.x - server.background.window_left, mario.y)
+            else:
+                mario.flipjump.draw(mario.x - server.background.window_left, mario.y)
+
 class RunState:
 
     def enter(mario, event):
@@ -105,8 +102,6 @@ class RunState:
         pass
 
     def exit(mario, event):
-        if event == SPACE_UP:
-            mario.y = 90
         pass
 
     def do(mario):
@@ -127,14 +122,14 @@ class RunState:
             mario.image.clip_draw(int(mario.frame) * 55, 0, 55, 105, cx, cy)
             mario.dir = 1
         elif mario.velocity < 0:
-            mario.image.clip_draw(int(mario.frame) * 55, 0, 55, 105, cx, cy)
+            mario.flipimage.clip_draw(int(mario.frame) * 55, 0, 55, 105, cx, cy)
             mario.dir = -1
 
 
-
 next_state_table = {
-    IdleState: {RIGHT_UP: IdleState, LEFT_UP: IdleState, RIGHT_DOWN: RunState, LEFT_DOWN: RunState, SPACE_DOWN: IdleState, SPACE_UP: IdleState},
-    RunState: {RIGHT_UP: IdleState, LEFT_UP: IdleState, LEFT_DOWN: RunState, RIGHT_DOWN: RunState, SPACE_DOWN: IdleState, SPACE_UP: IdleState},
+    IdleState: {RIGHT_UP: IdleState, LEFT_UP: IdleState, RIGHT_DOWN: RunState, LEFT_DOWN: RunState, SPACE_DOWN: JumpState, SPACE_UP: IdleState},
+    RunState: {RIGHT_UP: IdleState, LEFT_UP: IdleState, LEFT_DOWN: RunState, RIGHT_DOWN: RunState, SPACE_DOWN: JumpState, SPACE_UP: IdleState},
+    JumpState: {RIGHT_UP: RunState, LEFT_UP: RunState, RIGHT_DOWN: RunState, LEFT_DOWN: RunState, SPACE_DOWN: RunState, SPACE_UP: IdleState},
 }
 
 class Mario:
@@ -145,7 +140,9 @@ class Mario:
         self.image = load_image('resource/mariowalk.png')
         self.idleimage = load_image('resource/idlemario.png')
         self.jumpimage=load_image(('resource/jumpmario.png'))
-        self.flipimage = load_image('resource/flipmario.png')
+        self.flipimage = load_image('resource/mariowalkflip.png')
+        self.flipidle = load_image('resource/idlemarioflip.png')
+        self.flipjump = load_image('resource/jumpmarioflip.png')
         # fill here
         self.dir = 1
         self.velocity = 0

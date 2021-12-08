@@ -2,11 +2,10 @@ from pico2d import *
 import game_framework
 import random
 import server
-# Boy Action Speed
-# fill expressions correctly
 TIME_PER_ACTION = 1.0
 ACTION_PER_TIME = 1.0/TIME_PER_ACTION
 FRAMES_PER_ACTION = 4
+
 class Mon:
     def __init__(self):
         self.x = random.randint(200, 5000)
@@ -33,10 +32,10 @@ class Mon:
     def update(self):
         self.frame = (self.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 2
         self.dframe =(self.dframe + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 3
-        if server.mario.velocity > 0 and server.mario.x>=350:
-            self.cx -= 1
-        elif server.mario.velocity < 0 and server.mario.x>=350:
-            self.cx += 1
+        if server.mario.velocity > 0 and server.mario.x>350:
+            self.cx -= 2
+        elif server.mario.velocity < 0 and server.mario.x>350:
+            self.cx += 2
         if self.x >= self.maxx:
             self.dir = -random.random()
         elif self.x <= self.minx:

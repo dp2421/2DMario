@@ -12,7 +12,6 @@ class StageBackground:
         self.w = self.image.w
         self.h = self.image.h
 
-
     def draw(self):
         # fill here
         self.image.clip_draw_to_origin(self.window_left, 0, server.background.canvas_width, server.background.canvas_height, 0, 0)

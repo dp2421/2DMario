@@ -8,7 +8,6 @@ from mushroom import Mushrooms
 from player import Mario
 from stagetile import StageGround
 from monster import Mon
-name = "stage_1"
 
 def collide(a, b):
     left_a, bottom_a, right_a, top_a = a.get_bb()

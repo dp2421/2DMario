@@ -70,7 +70,7 @@ class StageGround:
     def update(self):
         self.frame = (self.frame + FRAMES_PER_ACTION * ACTION_PER_TIME * game_framework.frame_time) % 4
         if server.mario.velocity > 0 and server.mario.x>=350:
-            self.cx -= 1
+            self.cx -= 2
         elif server.mario.velocity < 0 and server.mario.x>=350:
-            self.cx += 1
+            self.cx += 2
         pass
